@@ -1,0 +1,9 @@
+{
+  "name": "BowlingFrontend",
+  "description": "SOA Toy Project",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "angular": "1.2.21"
+  }
+}

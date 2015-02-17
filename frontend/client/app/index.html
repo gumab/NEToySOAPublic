@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+  <meta http-equiv="content-language" content="ko">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <title>Toy Project - Bowling</title>
+</head>
+<body data-ng-app="bowlingApp">
+<div data-ng-controller="BowlingCtrl as bowlingCtrl">
+  <button data-ng-click="bowlingCtrl.rollBall(bowlingCtrl.rollScore)">ROLL</button>
+  <input data-ng-model="bowlingCtrl.rollScore">
+
+  <br>
+
+  <button data-ng-click="bowlingCtrl.getScore()">SCORE</button>
+  <input data-ng-model="bowlingCtrl.totalScore" data-ng-disabled="true">
+</div>
+<script src="/bower_components/angular/angular.js"></script>
+<script>
+  var frontend = {};
+  frontend.data = JSON.parse(JSON.stringify(<%-JSON.stringify(data)%>));
+</script>
+<script>
+  var app = angular.module('bowlingApp', []);
+
+
+  // angular service.
+  // UI independent logic
+  app.provider('bowlingService', function () {
+
+    function BowlingService(gameId, $http) {
+      this.rollBall = function (score) {
+        return $http({
+          method: 'POST',
+          url: 'roll/' + gameId + '/' + score
+        });
+      }
+
+      this.getScore = function () {
+        return $http({
+          method: 'GET',
+          url: 'game/' + gameId + '/score'
+        }).then(function (response) {
+          return response.data;
+        });
+      }
+    }
+
+    return {
+      $get: function ($http) {
+        return new BowlingService(this.gameId, $http);
+      },
+
+      setGameId: function (gameId) {
+        this.gameId = gameId;
+      }
+    }
+  });
+
+
+  // angular controller.
+  // bind model <-> html
+  app.controller('BowlingCtrl', function ($scope, bowlingService) {
+    var self = this;
+
+    this.rollBall = function (score) {
+      bowlingService.rollBall(score);
+    };
+
+    this.getScore = function () {
+      bowlingService.getScore().then(function (score) {
+        self.totalScore = score;
+      });
+    };
+  });
+
+
+  // angular config.
+  // initialize app when rendering page
+  app.config(function (bowlingServiceProvider) {
+    bowlingServiceProvider.setGameId(frontend.data.gameId);
+  });
+</script>
+</body>
+</html>
