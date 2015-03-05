@@ -94,10 +94,15 @@ module.exports = function (app) {
     gameBiz.loadGameByUserId(userId, callback);
   });
 
-  app.post('/history',function (req,res,next){
+  app.post('/loadHistory',function (req,res,next){
     var userId = req.body.userId;
     var callback = sendDataCallback(res,next);
-
     gameBiz.getAllGames(userId,callback);
+  });
+
+  app.post('/deleteGame',function (req,res,next){
+    var gameId = req.body.gameId;
+    var callback = sendDataCallback(res,next);
+    gameBiz.removeGame(gameId,callback);
   })
 };

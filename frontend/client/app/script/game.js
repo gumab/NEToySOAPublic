@@ -141,12 +141,6 @@
       return result;
     }
 
-    function buttonBlur(){
-      var btns = document.getElementsByTagName('button');
-      for(var i=0;i<btns.length;i++){
-        btns[i].blur();
-      }
-    }
 
     /////////////////////////////angular js//////////////////////////////
 
@@ -164,19 +158,16 @@
           method: 'POST',
           url: 'roll/',
           data: {userId:UserId, roll:roll}
-          }).success(function(data, status, headers, config) {
-            setBtnNumRange(data.numRange);
-            NumRange=data.numRange;
-            if(data.numRange<0){
-              document.getElementById('GameOver').style.display='';
-            }else{
-              document.getElementById('GameOver').style.display='none';
-            }
-            drawTable(data);
-            isProcessing=false;
-          }).error(function(data, status, headers, config) {
-            isProcessing=false;
-        });
+        }).success(function(data, status, headers, config) {
+          setBtnNumRange(data.numRange);
+          NumRange=data.numRange;
+          if(data.numRange<0){
+            document.getElementById('GameOver').style.display='';
+          }else{
+            document.getElementById('GameOver').style.display='none';
+          }
+          drawTable(data);
+        })
       }
 
       this.newGame = function () {
@@ -184,12 +175,10 @@
           method: 'POST',
           url: 'newGame/',
           data: {userId:UserId}
-          }).success(function(data, status, headers, config) {
-            setBtnNumRange(PIN_MAX);
-            NumRange=PIN_MAX;
-          }).error(function(data, status, headers, config) {
-            isProcessing=false;
-        });
+        }).success(function(data, status, headers, config) {
+          setBtnNumRange(PIN_MAX);
+          NumRange=PIN_MAX;
+        })
       }
 
       this.loadGame = function (){
@@ -215,10 +204,7 @@
             document.getElementById('GameOver').style.display='none';
           }
           drawTable(data);
-          isProcessing=false;
-        }).error(function(data,status,headers,config){
-          isProcessing=false;
-        });
+        })
       }
     }
 
@@ -247,9 +233,11 @@
       if(isProcessing){
         return;
       }else{
-        isProcessing=true;
-      }
-      gameService.submitRoll(roll);
+        setProcessInfo(true);
+      } 
+      gameService.submitRoll(roll).then(function(){
+        setProcessInfo(false);
+      });
       
       /*gameService.signUp(userId,pwd,cPwd).then(function (res) {
 
@@ -261,15 +249,21 @@
       if(isProcessing){
         return;
       }else{
-        isProcessing=true;
+        setProcessInfo(true);
       }
       gameService.newGame().then(function(){
-        gameService.loadGame();
+        gameService.loadGame().then(function(){
+          setProcessInfo(false);
+        });
       });
     };
 
     this.init = function(){
-      gameService.loadGame();
+      //customPageLoad();
+      setProcessInfo(true);
+      gameService.loadGame().then(function(){
+        setProcessInfo(false);
+      });
     }
   });
 

@@ -8,6 +8,7 @@ module.exports = {
 
   
   selectUserByUserId: function (userId, callback) {
+    console.log('userId');
     var client = redis.createClient(config.redis.port, config.redis.host);
     client.get( 'Users:'+userId, function (err, res) {
       client.quit();

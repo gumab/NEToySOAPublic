@@ -4,6 +4,7 @@ var config = require('../config/config'),
     router = require('express').Router(),
     game = require('../rpc/game'),
     roll = require('../rpc/roll'),
+    history = require('../rpc/history'),
     member = require('../rpc/member');
 
 module.exports = function (app) {
@@ -85,7 +86,7 @@ module.exports = function (app) {
   });
 
   router.post('/signIn',function(req,res,next){
-    
+    console.log('hello');
     var userId = req.body.userId;
     var pwd = req.body.pwd;
     var callback = sendDataCallback(res, next);
@@ -161,13 +162,31 @@ module.exports = function (app) {
 
   router.get('/historyView/:userId',function(req,res,next){
     var userId = req.params.userId;
-    game.history(userId,function (err,data){
-      console.log(data);
-      res.render('app/historyView.html',{
-        data:{userId:userId,gameData:data}
-      });
+    res.render('app/historyView.html',{
+      data:{userId:userId}
     });
-    
+  });
+
+  router.post('/historyView/loadHistory', function (req, res, next) {
+
+    var userId = req.body.userId;;
+    var callback = sendDataCallback(res, next);
+    if (userId) {
+      history.loadHistory(userId, callback);
+    } else {
+      callback(new InvalidArgumentError('Invalid Parameters'));
+    }
+  });
+
+  router.post('/historyView/deleteGame', function (req, res, next) {
+
+    var gameId = req.body.gameId;;
+    var callback = sendDataCallback(res, next);
+    if (gameId) {
+      history.deleteGame(gameId, callback);
+    } else {
+      callback(new InvalidArgumentError('Invalid Parameters'));
+    }
   });
 
 

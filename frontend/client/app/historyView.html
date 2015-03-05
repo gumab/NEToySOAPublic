@@ -51,21 +51,25 @@
         </div><!--/.nav-collapse -->
       </div>
 
-
-      <div class="jumbotron">
-
-
-        <div data-ng-controller="HistoryCtrl as historyCtrl" data-ng-init="historyCtrl.init()">
-        <h1>History</h1>
-        
-    <!-- 받아온 Model로 Table을 그릴 Partial View호출 -->
-        <div id="ScoreTable" style="padding-bottom:50px">       
-        
+      <div id="body">
+        <div class="jumbotron">
+          <div id='controllerDiv' data-ng-controller="HistoryCtrl as historyCtrl" data-ng-init="historyCtrl.init()">
+            <h1>History</h1>
+        <!-- 받아온 Model로 Table을 그릴 Partial View호출 -->
+            <div id="ScoreTable" style="padding-bottom:50px">       
+            </div>
+          </div>
         </div>
-
-
       </div>
-
+      <div id="loadingBar" style="position:absolute; top:0; left:0; width:100%; height:100%; text-align:center; margin:0 auto; z-index:100000;">
+        <table width="100%" height="100%" border="0" bgcolor="#000000">
+          <tr><td align="center">
+            <div style="text-align:center;"><IMG SRC="/content/images/loader.gif" width="50px" height="50px"></div>
+            <div style="margin-top:20px; color:#000; text-align:center; font-weight:bold;">처 리 중 . . .</div>
+          </td></tr>
+        </table>
+      </div>
+      
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -76,14 +80,7 @@
 
 
 <script type="text/javascript">
-    
+ 
   var frontend = {};
-  var data = <%-JSON.stringify(data)%>;
-  var gameData = data.gameData;
-  var UserId = data.userId;
-  if(gameData!=''){
-    frontend.data = JSON.parse(gameData);
-  }
-  customPageLoad();
-
+  frontend.data = JSON.parse(JSON.stringify(<%-JSON.stringify(data)%>));
 </script>

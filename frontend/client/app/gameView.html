@@ -18,7 +18,7 @@
   <link href="/content/css/navbar.css" rel="stylesheet">
   <link rel="Shortcut Icon" href="/content/images/ebay_bowling_ico.png" />
 </head>
-  <body data-ng-app="gameApp" style="margin-top:70px">
+  <body data-ng-app="gameApp" style="margin-top:70px;">
     <div class="container">
       <div class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
@@ -51,32 +51,40 @@
         </div><!--/.nav-collapse -->
       </div>
 
+      <div id="body">
+        <div class="jumbotron">
+          <div data-ng-controller="GameCtrl as gameCtrl" data-ng-init="gameCtrl.init()">
+            <h1>Game board</h1>
+            <button class="btn btn-info" type="button" data-ng-click="gameCtrl.newGame()">New game</button>
+            <hr />
 
-      <div class="jumbotron">
+            <div id="btn" align=center>
+            </div>
+            <hr />
 
+        <!-- 받아온 Model로 Table을 그릴 Partial View호출 -->
+            <div id="ScoreTable" style="padding-bottom:50px">       
+            
+            </div>
 
-        <div data-ng-controller="GameCtrl as gameCtrl" data-ng-init="gameCtrl.init()">
-        <h1>Game board</h1>
-        <button class="btn btn-info" type="button" data-ng-click="gameCtrl.newGame()">New game</button>
-        <hr />
-
-        <div id="btn" align=center>
+        <!-- 클릭가능한 Pin 범위가 음수로 오면 게임종료 -->
+            <div id="GameOver" style="display:none">
+                <b>GAME OVER</b>
+            </div>
+          </div>
         </div>
-        <hr />
-
-    <!-- 받아온 Model로 Table을 그릴 Partial View호출 -->
-        <div id="ScoreTable" style="padding-bottom:50px">       
-        
-        </div>
-
-    <!-- 클릭가능한 Pin 범위가 음수로 오면 게임종료 -->
-        <div id="GameOver" style="display:none">
-            <b>GAME OVER</b>
-        </div>
-
       </div>
 
+      <div id="loadingBar" style="position:absolute; top:0; left:0; width:100%; height:100%; text-align:center; margin:0 auto; z-index:100000;">
+        <table width="100%" height="100%" border="0" bgcolor="#000000">
+          <tr><td align="center">
+            <div style="text-align:center;"><IMG SRC="/content/images/loader.gif" width="50px" height="50px"></div>
+            <div style="margin-top:20px; color:#000; text-align:center; font-weight:bold;">처 리 중 . . .</div>
+          </td></tr>
+        </table>
+      </div>
     </div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -88,6 +96,5 @@
     
     var frontend = {};
   frontend.data = JSON.parse(JSON.stringify(<%-JSON.stringify(data)%>));
-    customPageLoad();
-
+  customPageLoad();
 </script>

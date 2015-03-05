@@ -9,6 +9,12 @@ var CONSTS_SYMBOL = {
   NOTHING:-6
 }
 
+function buttonBlur(){
+  var btns = document.getElementsByTagName('button');
+  for(var i=0;i<btns.length;i++){
+    btns[i].blur();
+  }
+}
 
 function makeTableHtml(throwList,scoreList){
       var count = throwList.length;
@@ -90,3 +96,17 @@ function makeTableHtml(throwList,scoreList){
       }
       return result;
     }
+
+ function setProcessInfo(isProc){
+    isProcessing=isProc;
+    //console.log($('#jumbotron'))
+    if(isProcessing){
+      
+      $('#body').css('opacity',0.3);
+      $('#loadingBar').css('display','');
+    }
+    else{
+      $('#body').css('opacity',1);
+      $('#loadingBar').css('display','none');
+    } 
+  }

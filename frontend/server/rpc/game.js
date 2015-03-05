@@ -50,17 +50,5 @@ module.exports = {
         callback(error, body);
       })
     );
-  },
-
-  history: function (userId, callback){
-    request.post(
-      {
-        url: config.backend + '/history',
-        formData: { userId: userId }
-      },
-      restifyResponseHandler(function (error, response, body) {
-        callback(error, body);
-      })
-    );
   }
 };
