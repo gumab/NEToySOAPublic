@@ -1,14 +1,4 @@
-var PIN_MAX = 10;
-    var THROW_MAX = 20;
-    var FRAME_MAX = 10;
     var NumRange = PIN_MAX;
-    CONSTS_SYMBOL = {
-      STRIKE:-2,
-      SPARE:-3,
-      CALC_ING:-4,
-      BAR:-5,
-      NOTHING:-6
-    }
     var isProcessing = false;
 
     function myKeyPressHandler() {
