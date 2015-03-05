@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Signin Page</title>
+    <!--<link rel="Shortcut Icon" href="../../Content/images/ebay_bowling_ico.png" />-->
+    <link href="http://bootstrapk.com/BS3/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="http://bootstrapk.com/BS3/examples/signin/signin.css" rel="stylesheet">
+
+  <meta http-equiv="content-language" content="ko">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <title>Toy Project - Bowling</title>
+  <script src="/bower_components/angular/angular.js"></script>
+</head>
+ <body data-ng-app="signUpApp">
+
+    <div class="container" data-ng-controller="SignUpCtrl as suCtrl">
+         <form class="form-signin">
+        <input type="text" id="inputId" class="form-control" placeholder="User ID (3~10 letters)" autofocus="" maxlength=10 autocomplete=off required data-ng-model="suCtrl.userId">
+        <input type="password" id="inputPwd" class="form-control" style="border-bottom-left-radius:0;border-bottom-right-radius:0;margin:0" placeholder="Password (3~10 letters)" maxlength=10 required data-ng-model="suCtrl.pwd">
+        <input type="password" id="inputConfirm" class="form-control" style="margin:0" placeholder="Confirm your password" name="ConfirmationPassword" maxlength=10 required data-ng-model="suCtrl.cPwd">
+        
+       <button class="btn btn-lg btn-info btn-block" type="submit" style="margin-top:30px; width:100%"  data-ng-click="suCtrl.signUp(suCtrl.userId,suCtrl.pwd,suCtrl.cPwd)">Sign Up</button>
+       <div style="margin-top:10px" align=right><a href="/">Go back</a></div>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>
+
+<script>
+  var app = angular.module('signUpApp', []);
+
+
+  // angular service.
+  // UI independent logic
+  app.provider('signUpService', function () {
+
+    function SignUpService($http) {
+      this.signUp = function (userId,pwd,cPwd) {
+        return $http({
+          method: 'POST',
+          url: 'signUp/',
+          data: {userId:userId, pwd:pwd, cPwd:cPwd}
+        });
+      }
+    }
+
+    return {
+      $get: function ($http) {
+        return new SignUpService($http);
+      },
+    }
+  });
+
+
+  // angular controller.
+  // bind model <-> html
+  app.controller('SignUpCtrl', function ($scope, signUpService) {
+    var self = this;
+
+    this.signUp = function (userId,pwd,cPwd) {
+        console.log(userId+"/"+pwd+"/"+cPwd);
+        if(userId.length<3){
+          alert("ID를 3글자 이상 입력하세요");
+          return;
+        }
+        if(pwd.length<3){
+          alert("비밀번호를 3글자 이상 입력하세요");
+          document.getElementById('inputPwd').value='';
+          document.getElementById('inputConfirm').value='';
+          document.getElementById('inputPwd').focus();
+          return;
+        }
+        if(pwd!=cPwd){
+          alert("정확한 비밀번호를 입력하세요");
+          document.getElementById('inputPwd').value='';
+          document.getElementById('inputConfirm').value='';
+          document.getElementById('inputPwd').focus();
+          return;
+        }
+      
+        signUpService.signUp(userId,pwd,cPwd).then(function (res) {
+            if(res.data==1){
+              alert("가입 성공");
+              window.location = '/';
+            }
+            else if(res.data==0){
+              alert("중복한 ID가 있습니다.");
+              document.getElementById('inputId').focus();
+            }
+            //console.log(res.data);
+        });
+    };
+  });
+
+
+</script>

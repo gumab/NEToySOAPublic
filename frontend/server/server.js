@@ -1,16 +1,25 @@
 'use strict';
 
+// define global error types
+require('./data/error-types')();
+
+
+// get modules
 var config = require('./config/config'),
     express = require('express'),
     app = express();
 
 
-// express config
+// set express config
 require('./config/express')(app);
 
 
-// register routing rules
+// use routing rules
 require('./routes')(app);
+
+
+// use error handler
+require('./lib/error-handler')(app);
 
 
 // start listening

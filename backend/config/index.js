@@ -14,8 +14,28 @@ module.exports = {
   //   password: ''
   // }
 
-  redis: {
-    host: '192.168.56.102',
+  redis2: {
+    host: '10.64.215.85',
     port: 6379
-  }
+  },
+  redis: {
+    host: '10.238.130.125',
+    port: 6379
+  },
+  CONSTS_SYMBOL : {
+    STRIKE:-2,
+    SPARE:-3,
+    CALC_ING:-4,
+    BAR:-5,
+    NOTHING:-6
+  },
+  CONSTS_STAT : {
+    NORMAL:-1,
+    STRIKE:-2,
+    SPARE:-3,
+    BONUS:-4
+  },
+  PIN_MAX: 10,
+  THROW_MAX:20,
+  FRAME_MAX:10
 };

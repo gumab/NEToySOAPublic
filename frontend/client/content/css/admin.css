@@ -1,0 +1,24 @@
+﻿body {
+}
+
+.form-admin {
+  max-width: 150px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-admin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.form-admin .form-control:focus {
+  z-index: 2;
+}
+.form-admin input[type="text"] {
+  margin-bottom: -1px;
+}

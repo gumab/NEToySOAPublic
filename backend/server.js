@@ -1,25 +1,30 @@
 'use strict';
 
+// define global error types
+require('./data/error-types')();
+
+
+// get modules
 var config = require('./config').server,
     restify = require('restify');
 
 
 // create server
-var server = restify.createServer({
+var app = restify.createServer({
   name: config.name,
   version: config.version
 });
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
+app.use(restify.acceptParser(app.acceptable));
+app.use(restify.queryParser());
+app.use(restify.bodyParser());
 
 
-// register routing rules
-require('./routes')(server);
+// use router
+require('./routes')(app);
 
 
 // start listening
-server.listen(config.port, function () {
-  console.log('%s listening at %s', server.name, server.url);
+app.listen(config.port, function () {
+  console.log('%s listening at %s', app.name, app.url);
 });
 

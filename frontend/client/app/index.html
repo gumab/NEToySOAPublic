@@ -23,6 +23,7 @@
 <script>
   var frontend = {};
   frontend.data = JSON.parse(JSON.stringify(<%-JSON.stringify(data)%>));
+  console.log(frontend);
 </script>
 <script>
   var app = angular.module('bowlingApp', []);
