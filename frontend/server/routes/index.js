@@ -86,10 +86,11 @@ module.exports = function (app) {
   });
 
   router.post('/signIn',function(req,res,next){
-    console.log('hello');
+
     var userId = req.body.userId;
     var pwd = req.body.pwd;
     var callback = sendDataCallback(res, next);
+    console.log('signIn/'+userId+'/'+pwd);
     if(userId && pwd){
       member.signIn(userId,pwd,callback);
     } else{
@@ -98,6 +99,7 @@ module.exports = function (app) {
   });
 
   router.get('/signUp',function(req,res,next){
+    console.log('signUpView/');
     res.render('app/signUp.html');
   });
 
@@ -105,6 +107,7 @@ module.exports = function (app) {
     var userId = req.body.userId;
     var pwd = req.body.pwd;
     var cPwd = req.body.cPwd;
+    console.log('signUp/'+userId+'/'+pwd);
     var callback = sendDataCallback(res,next);
     if(userId && pwd && cPwd){
       if(userId.length<3 || userId.length>10||pwd.length<3 || pwd.length>10||pwd!=cPwd){
@@ -119,6 +122,7 @@ module.exports = function (app) {
 
   router.get('/gameView/:userId',function(req,res,next){
     var userId = req.params.userId;
+    console.log('gameView/'+userId);
     res.render('app/gameView.html',{
       data:{userId:userId}
     });
@@ -129,7 +133,7 @@ module.exports = function (app) {
     var userId = req.body.userId;;
     var score = parseInt(req.body.roll);
     var callback = sendDataCallback(res, next);
-
+    console.log('gameView/roll/'+userId+'/score:'+score);
     if (userId && score || score == 0) {
       roll.add(userId, score, callback);
     } else {
@@ -141,7 +145,7 @@ module.exports = function (app) {
 
     var userId = req.body.userId;;
     var callback = sendDataCallback(res, next);
-
+    console.log('gameView/newGame/'+userId);
     if (userId) {
       game.newGame(userId, callback);
     } else {
@@ -153,6 +157,7 @@ module.exports = function (app) {
 
     var userId = req.body.userId;;
     var callback = sendDataCallback(res, next);
+    console.log('gameView/loadGame/'+userId);
     if (userId) {
       game.loadGame(userId, callback);
     } else {
@@ -162,6 +167,7 @@ module.exports = function (app) {
 
   router.get('/historyView/:userId',function(req,res,next){
     var userId = req.params.userId;
+    console.log('historyView/'+userId);
     res.render('app/historyView.html',{
       data:{userId:userId}
     });
@@ -171,6 +177,7 @@ module.exports = function (app) {
 
     var userId = req.body.userId;;
     var callback = sendDataCallback(res, next);
+    console.log('historyView/loadHistory/'+userId);
     if (userId) {
       history.loadHistory(userId, callback);
     } else {
@@ -179,9 +186,10 @@ module.exports = function (app) {
   });
 
   router.post('/historyView/deleteGame', function (req, res, next) {
-
+    
     var gameId = req.body.gameId;;
     var callback = sendDataCallback(res, next);
+    console.log('historyView/deleteGame/'+gameId);
     if (gameId) {
       history.deleteGame(gameId, callback);
     } else {
