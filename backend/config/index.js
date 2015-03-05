@@ -13,12 +13,15 @@ module.exports = {
   //   user: '',
   //   password: ''
   // }
-
+  redis: {
+    host: '0.0.0.0',
+    port: 6379
+  },
   redis2: {
     host: '10.64.215.85',
     port: 6379
   },
-  redis: {
+  redis3: {
     host: '10.238.130.125',
     port: 6379
   },
