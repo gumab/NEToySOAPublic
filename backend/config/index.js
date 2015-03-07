@@ -14,7 +14,7 @@ module.exports = {
   //   password: ''
   // }
   redis:{
-    host:'127.0.0.1',
+    host:'0.0.0.0',
     port:6379
   },
   redis1: {
